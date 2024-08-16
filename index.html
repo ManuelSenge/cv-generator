@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CV Generator</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Sortable/1.14.0/Sortable.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <nav class="sidebar">
+            <h2>Sections</h2>
+            <ul id="sortable-list">
+                <!-- Information Tab at the Top -->
+                <li><a href="#" data-target="info-section" class="non-draggable">Information</a></li>
+                
+                <!-- Load Data Link -->
+                <li><a href="#" data-target="load-data-section" class="non-draggable">Load or Save Data</a></li>
+                
+                <!-- Other Links -->
+                <li><a href="#" data-target="contact-info">Contact Information</a></li>
+                <li><a href="#" data-target="education-section">Education</a></li>
+                <li><a href="#" data-target="experience-section">Work Experience and Projects</a></li>
+                <li><a href="#" data-target="internships-section">Internships</a></li>
+                <li><a href="#" data-target="activities-section">Engagement</a></li>
+                <li><a href="#" data-target="publications-section">Publications</a></li>
+                <li><a href="#" data-target="skills-section">Skills</a></li>
+                <li><a href="#" data-target="languages-section">Languages</a></li>
+                <li><a href="#" data-target="generate-latex-section" class="non-draggable">Generate LaTeX</a></li>
+            </ul>
+        </nav>
+        <main class="main-content">
+            <h1>CV Generator</h1>
+            
+            <!-- Information Section -->
+            <div class="section" id="info-section" class="active">
+                <h2>Information</h2>
+        
+        <h3>What is This Program?</h3>
+        <p>Welcome to the CV Generator! This tool allows you to create a detailed CV by filling out various sections such as Contact Information, Education, Professional Experience, and more. Use the sidebar to navigate between sections and manage your CV.</p>
+        
+        <h3>Changing Section Order</h3>
+        <p>You can change the order of sections on the left by simply dragging and dropping them in your desired sequence. Additionally, you have the flexibility to add new elements, edit existing ones, remove them, or rearrange their order within each section.</p>
+        
+        <h3>Loading and Saving Data</h3>
+        <p>For convenience, you can load and save existing CVs to easily manage your data. Once you are satisfied with the content, you can generate the corresponding LaTeX code to produce a well-formatted CV.</p>
+        
+        <h3>Generating LaTeX Code</h3>
+        <p>Please note, this tool does not include a LaTeX to PDF compiler, as it would significantly increase the tool's size. To compile your LaTeX code into a PDF, you can use your preferred LaTeX distribution or create a shared document on Overleaf. If you don't have an Overleaf account, you can sign up for one <a href="https://www.overleaf.com/signup" target="_blank">here</a>.</p>
+        
+        <h3>Leave out Sections</h3>
+        <p>Note that if you leave out a section, it will not be displayed in the final CV. Ensure that you add and configure all the necessary sections according to your requirements to get a complete CV output.</p>
+        
+        <h3>Importing Your Current CV from PDF</h3>
+        <p>If this is your first time using this program and you do not have a saved file to import yet, you can ask ChatGPT to do the work for you so that you don't have to insert all the information manually. Simply attach your PDF and write the following in the prompt:</p>
+        
+        <pre>
+Can you extract all my information from the attached CV? I need it in the following JSON format where the sectionOrder can simply be copied:
+{
+    "contact": {
+        "name": "Full Name",
+        "dob": "01/01/1990",
+        "phone": "123-456-7890",
+        "email": "john.doe@example.com"
+    },
+    "sectionOrder": [
+        "info-section",
+        "load-data-section",
+        "contact-info",
+        "education-section",
+        "experience-section",
+        "internships-section",
+        "activities-section",
+        "publications-section",
+        "skills-section",
+        "languages-section",
+        "generate-latex-section"
+    ],
+    "education": [
+        {
+            "institution": "University Name",
+            "location": "City, Country",
+            "degree": "Degree",
+            "date": "Year",
+            "items": ["Relevant details", "Relevant details"]
+        }
+    ],
+    "experience": [
+        {
+            "company": "Company Name",
+            "location": "City, Country",
+            "role": "Role",
+            "date": "Year",
+            "items": ["Relevant details", "Relevant details"]
+        }
+    ],
+    "internship": [
+        {
+            "company": "Company Name",
+            "location": "City, Country",
+            "role": "Role",
+            "date": "Year",
+            "items": ["Relevant details", "Relevant details"]
+        }
+    ],
+    "activities": [
+        {
+            "organization": "Organization Name",
+            "location": "City, Country",
+            "role": "Role",
+            "date": "Year",
+            "items": ["Relevant details", "Relevant details"]
+        }
+    ],
+    "publications": [
+        {
+            "title": "Publication Title",
+            "items": ["Relevant details", "Relevant details"],
+            "link": "http://example.com"
+        }
+    ],
+    "skills": [
+        {
+            "skillTitle": "Skill",
+            "description": "Skill details"
+        }
+    ],
+    "languages": [
+        {
+            "language": "Language",
+            "proficiency": "Proficiency Level"
+        }
+    ]
+}
+        </pre>
+        
+        <p>Enjoy building your CV!</p>
+            </div>
+
+            <!-- Load Data Section -->
+            <div class="section" id="load-data-section">
+                <h2>Load Data</h2>
+                <input type="file" id="file-input" accept=".json">
+                <button class="add-button" onclick="loadData()">Load Data</button>
+                <div id="load-message" class="message"></div> <!-- Message display area -->
+
+                <h2>Save Data</h2>
+                <input type="text" id="save_file_name" placeholder="Enter file name" />
+                <button class="add-button" id="save-button" onclick="saveData()">Save Data</button>
+                <div id="save-message" class="message"></div> <!-- Message display area -->
+            </div>
+
+            <!-- Contact Information -->
+            <div class="section" id="contact-info">
+                <h2>Contact Information</h2>
+                <div class="form-group">
+                    <label for="name">Name:</label>
+                    <input type="text" id="name">
+                </div>
+                <div class="form-group">
+                    <label for="dob">Date of Birth:</label>
+                    <input type="text" id="dob">
+                </div>
+                <div class="form-group">
+                    <label for="phone">Phone:</label>
+                    <input type="text" id="phone">
+                </div>
+                <div class="form-group">
+                    <label for="email">Email:</label>
+                    <input type="text" id="email">
+                </div>
+                <div class="form-group">
+                    <label for="linkedin">LinkedIn URL:</label>
+                    <input type="text" id="linkedin">
+                </div>
+            </div>
+
+            <!-- Education Section -->
+            <div class="section" id="education-section">
+                <h2>Education</h2>
+                <div id="education-container"></div>
+                <button class="add-button" onclick="addEducation()">Add Education</button>
+            </div>
+
+            <!-- Work Experience Section -->
+            <div class="section" id="experience-section">
+                <h2>Work Experience and Projects</h2>
+                <div id="experience-container"></div>
+                <button class="add-button" onclick="addExperience()">Add Experience</button>
+            </div>
+
+            <!-- Internships Section -->
+            <div class="section" id="internships-section">
+                <h2>Internships</h2>
+                <div id="internship-container"></div>
+                <button class="add-button" onclick="addInternship()">Add Internship</button>
+            </div>
+
+            <!-- Extracurricular Activities Section -->
+            <div class="section" id="activities-section">
+                <h2>Engagement</h2>
+                <div id="activities-container"></div>
+                <button class="add-button" onclick="addActivity()">Add Activity</button>
+            </div>
+
+            <!-- Publications Section -->
+            <div class="section" id="publications-section">
+                <h2>Publications</h2>
+                <div id="publications-container"></div>
+                <button class="add-button" onclick="addPublication()">Add Publication</button>
+            </div>
+
+            <!-- Skills Section -->
+            <div class="section" id="skills-section">
+                <h2>Skills</h2>
+                <div id="skills-container"></div>
+                <button class="add-button" onclick="addSkill()">Add Skill</button>
+            </div>
+
+            <!-- Languages Section -->
+            <div class="section" id="languages-section">
+                <h2>Languages</h2>
+                <div id="languages-container"></div>
+                <button class="add-button" onclick="addLanguage()">Add Language</button>
+            </div>
+
+            <!-- Generate LaTeX Section -->
+            <div class="section" id="generate-latex-section">
+                <h2>Generate LaTeX</h2>
+                <button class="add-button" onclick="generateLatex()">Generate LaTeX</button>
+                <button class="copy-button" onclick="copyLatex()">Copy LaTeX</button>
+                <textarea id="latex-output" readonly></textarea>
+            </div>
+        </main>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

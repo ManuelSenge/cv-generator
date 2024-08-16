@@ -1,0 +1,76 @@
+{
+    "contact": {
+        "name": "Full Name",
+        "dob": "01/01/1990",
+        "phone": "123-456-7890",
+        "email": "john.doe@example.com"
+    },
+    "sectionOrder": [
+        "info-section",
+        "load-data-section",
+        "contact-info",
+        "education-section",
+        "experience-section",
+        "internships-section",
+        "activities-section",
+        "publications-section",
+        "skills-section",
+        "languages-section",
+        "generate-latex-section"
+      ],
+    "education": [
+        {
+            "institution": "University Name",
+            "location": "City, Country",
+            "degree": "Degree",
+            "date": "Year",
+            "items": "Relevant details"
+        }
+    ],
+    "experience": [
+        {
+            "company": "Company Name",
+            "location": "City, Country",
+            "role": "Role",
+            "date": "Year",
+            "items": "Relevant details"
+        }
+    ],
+    "internship": [
+        {
+            "company": "Company Name",
+            "location": "City, Country",
+            "role": "Role",
+            "date": "Year",
+            "items": "Relevant details"
+        }
+    ],
+    "activities": [
+        {
+            "organization": "Organization Name",
+            "location": "City, Country",
+            "role": "Role",
+            "date": "Year",
+            "items": "Relevant details"
+        }
+    ],
+    "publications": [
+        {
+            "title": "Publication Title",
+            "items": "Publication details",
+            "link": "http://example.com"
+        }
+    ],
+    "skills": [
+        {
+            "skillTitle": "Skill",
+            "description": "Skill details"
+        }
+    ],
+    "languages": [
+        {
+            "language": "Language",
+            "proficiency": "Proficiency Level"
+        }
+    ]
+}

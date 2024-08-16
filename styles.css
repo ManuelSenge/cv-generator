@@ -1,0 +1,303 @@
+/* Reset some default styles */
+body, h1, h2, p {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: #333;
+    background-color: #f0f2f5;
+    line-height: 1.6;
+}
+
+.container {
+    display: flex;
+    height: 100vh;
+    overflow: hidden;
+}
+
+.sidebar {
+    width: 250px;
+    background: #2c3e50;
+    color: #ecf0f1;
+    padding: 20px;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+}
+
+.sidebar h2 {
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+}
+
+.sidebar ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    flex: 1;
+}
+
+.sidebar ul li {
+    margin: 15px 0;
+}
+
+.sidebar ul li a {
+    color: #ecf0f1;
+    text-decoration: none;
+    font-size: 1rem;
+    transition: color 0.3s ease, background-color 0.3s ease;
+    display: block;
+    padding: 10px;
+    border-radius: 4px;
+}
+
+.sidebar ul li a.active {
+    background-color: #34495e;
+}
+
+.sidebar ul li a:hover {
+    color: #3498db;
+    background-color: #34495e;
+}
+
+.main-content {
+    flex: 1;
+    padding: 20px;
+    background: #ffffff;
+    box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.1);
+    overflow-y: auto;
+}
+
+h1 {
+    font-size: 2rem;
+    margin-bottom: 20px;
+    color: #2c3e50;
+}
+
+h2 {
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+    color: #2c3e50;
+}
+
+.section p {
+    margin-bottom: 1em; /* Adds space between paragraphs */
+    line-height: 1.6;  /* Adjusts the line height for readability */
+}
+
+.section {
+    display: none;
+    padding-bottom: 60px; /* Ensures space for the Add button */
+    position: relative;
+}
+
+.section.active {
+    display: block;
+}
+
+textarea {
+    width: 100%;
+    height: 150px;
+    margin-top: 20px;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.1);
+    resize: vertical; /* Allow vertical resizing only */
+}
+
+/* General button styles */
+button {
+    border: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Add button specific styles */
+button.add-button {
+    background-color: #27ae60; /* Green for Add button */
+    color: white;
+}
+
+button.add-button:hover {
+    background-color: #2ecc71; /* Lighter green on hover */
+}
+
+/* Form group styles */
+.form-group {
+    margin-bottom: 20px;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    background-color: #f9f9f9;
+    position: relative; /* Positioning for buttons */
+}
+
+/* Form elements inside .form-group */
+.form-group textarea,
+.form-group input[type="text"] {
+    width: calc(100% - 20px); /* Adjust width to fit within padding */
+    margin-top: 10px;
+    padding: 5px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+.form-group textarea {
+    height: 100px;
+    resize: vertical; /* Allow vertical resizing only */
+}
+
+/* Input file styles */
+input[type="file"] {
+    border: none;
+    padding: 10px;
+    margin-top: 10px;
+    border-radius: 4px;
+    box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.1);
+}
+
+/* Message styles */
+.message {
+    margin-top: 20px;
+    padding: 10px;
+    border-radius: 4px;
+    font-weight: bold;
+}
+
+.message.success {
+    color: green; /* Success color */
+}
+
+.message.error {
+    color: red; /* Error color */
+}
+
+/* Sidebar link styling */
+.sidebar a {
+    text-decoration: none;
+    color: black; /* Default color */
+    padding: 10px;
+    display: block;
+}
+
+.sidebar a.active {
+    background-color: #f0f0f0; /* Highlight color for active link */
+    color: #000000; /* Text color for active link */
+    font-weight: bold;
+}
+
+.main-content .section {
+    display: none; /* Hide all sections by default */
+}
+
+.main-content .section.active {
+    display: block; /* Show active section */
+}
+
+/* Button group styles */
+.button-group {
+    display: flex;
+    gap: 5px; /* Space between buttons */
+    margin-top: 10px;
+}
+
+/* General button styling in button group */
+.button-group button {
+    padding: 5px 10px; /* Smaller padding for smaller buttons */
+    font-size: 12px; /* Smaller font size */
+    border: 1px solid #ddd; /* Border around buttons */
+    border-radius: 4px; /* Rounded corners */
+    background-color: #f9f9f9; /* Default background color */
+    color: #333; /* Default text color */
+    text-align: center; /* Center text inside buttons */
+    cursor: pointer; /* Change cursor to pointer on hover */
+    transition: background-color 0.3s ease, color 0.3s ease; /* Smooth transition */
+}
+
+/* Remove button specific styles */
+button.remove-button {
+    background-color: #e74c3c; /* Red background for remove button */
+    color: white; /* White text color */
+    font-weight: bold; /* Bold text */
+    padding: 5px 10px; /* Ensure consistency */
+    font-size: 15px; /* Ensure consistency */
+}
+
+/* Remove button hover effect */
+button.remove-button:hover {
+    background-color: #c0392b; /* Darker red when hovered */
+}
+
+/* Move up button specific styles */
+button.move-up {
+    background-color: #4293d6; /* Blue background for move down */
+    color: white; /* White text color */
+    font-weight: bold; /* Bold text */
+    padding: 5px 10px; /* Ensure consistency */
+    font-size: 15px; /* Ensure consistency */
+}
+
+/* Move up button hover effect */
+button.move-up:hover {
+    background-color: rgb(20, 99, 178); /* Darker blue when hovered */
+}
+
+/* Move down button specific styles */
+button.move-down {
+    background-color: #4293d6; /* Blue background for move down */
+    color: white; /* White text color */
+    font-weight: bold; /* Bold text */
+    padding: 5px 10px; /* Ensure consistency */
+    font-size: 15px; /* Ensure consistency */
+}
+
+/* Move down button hover effect */
+button.move-down:hover {
+    background-color: rgb(20, 99, 178); /* Darker blue when hovered */
+}
+
+
+/* Style for Generate and Copy LaTeX buttons */
+.generate-button, .copy-button {
+    border: none;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: background-color 0.3s ease;
+    margin-right: 10px; /* Space between buttons */
+}
+
+.generate-button {
+    background-color: #3498db; /* Blue for Generate button */
+}
+
+.generate-button:hover {
+    background-color: #2980b9; /* Darker blue on hover */
+}
+
+.copy-button {
+    background-color: #676968; /* Green for Copy button */
+}
+
+.copy-button:hover {
+    background-color: #a5a3a3; /* Lighter green on hover */
+}
+
+.copy-button:active {
+    background-color: #0a0a0a; /* Lighter green on hover */
+}
+
+
+.sortable-ghost {
+    opacity: 0.5;
+    background-color: #ddd;
+}
