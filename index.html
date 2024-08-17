@@ -20,13 +20,34 @@
                 
                 <!-- Other Links -->
                 <li><a href="#" data-target="contact-info">Contact Information</a></li>
-                <li><a href="#" data-target="education-section">Education</a></li>
-                <li><a href="#" data-target="experience-section">Work Experience and Projects</a></li>
-                <li><a href="#" data-target="internships-section">Internships</a></li>
-                <li><a href="#" data-target="activities-section">Engagement</a></li>
-                <li><a href="#" data-target="publications-section">Publications</a></li>
-                <li><a href="#" data-target="skills-section">Skills</a></li>
-                <li><a href="#" data-target="languages-section">Languages</a></li>
+                <li>
+                    <a href="#" data-target="education-section">Education</a>
+                    <span class="edit-icon" onclick="editSectionName(this)"><img src="edit.png" alt="Edit"></span>
+                </li>
+                <li>
+                    <a href="#" data-target="experience-section">Work Experience and Projects</a>
+                    <span class="edit-icon" onclick="editSectionName(this)"><img src="edit.png" alt="Edit"></span>
+                </li>
+                <li>
+                    <a href="#" data-target="internships-section">Internships</a>
+                    <span class="edit-icon" onclick="editSectionName(this)"><img src="edit.png" alt="Edit"></span>
+                </li>
+                <li>
+                    <a href="#" data-target="activities-section">Activities</a>
+                    <span class="edit-icon" onclick="editSectionName(this)"><img src="edit.png" alt="Edit"></span>
+                </li>
+                <li>
+                    <a href="#" data-target="publications-section">Publications</a>
+                    <span class="edit-icon" onclick="editSectionName(this)"><img src="edit.png" alt="Edit"></span>
+                </li>
+                <li>
+                    <a href="#" data-target="skills-section">Skills</a>
+                    <span class="edit-icon" onclick="editSectionName(this)"><img src="edit.png" alt="Edit"></span>
+                </li>
+                <li>
+                    <a href="#" data-target="languages-section">Languages</a>
+                    <span class="edit-icon" onclick="editSectionName(this)"><img src="edit.png" alt="Edit"></span>
+                </li>
                 <li><a href="#" data-target="generate-latex-section" class="non-draggable">Generate LaTeX</a></li>
             </ul>
         </nav>
@@ -52,90 +73,14 @@
         <h3>Leave out Sections</h3>
         <p>Note that if you leave out a section, it will not be displayed in the final CV. Ensure that you add and configure all the necessary sections according to your requirements to get a complete CV output.</p>
         
-        <h3>Importing Your Current CV from PDF</h3>
-        <p>If this is your first time using this program and you do not have a saved file to import yet, you can ask ChatGPT to do the work for you so that you don't have to insert all the information manually. Simply attach your PDF and write the following in the prompt:</p>
-        
-        <pre>
-Can you extract all my information from the attached CV? I need it in the following JSON format where the sectionOrder can simply be copied:
-{
-    "contact": {
-        "name": "Full Name",
-        "dob": "01/01/1990",
-        "phone": "123-456-7890",
-        "email": "john.doe@example.com"
-    },
-    "sectionOrder": [
-        "info-section",
-        "load-data-section",
-        "contact-info",
-        "education-section",
-        "experience-section",
-        "internships-section",
-        "activities-section",
-        "publications-section",
-        "skills-section",
-        "languages-section",
-        "generate-latex-section"
-    ],
-    "education": [
-        {
-            "institution": "University Name",
-            "location": "City, Country",
-            "degree": "Degree",
-            "date": "Year",
-            "items": ["Relevant details", "Relevant details"]
-        }
-    ],
-    "experience": [
-        {
-            "company": "Company Name",
-            "location": "City, Country",
-            "role": "Role",
-            "date": "Year",
-            "items": ["Relevant details", "Relevant details"]
-        }
-    ],
-    "internship": [
-        {
-            "company": "Company Name",
-            "location": "City, Country",
-            "role": "Role",
-            "date": "Year",
-            "items": ["Relevant details", "Relevant details"]
-        }
-    ],
-    "activities": [
-        {
-            "organization": "Organization Name",
-            "location": "City, Country",
-            "role": "Role",
-            "date": "Year",
-            "items": ["Relevant details", "Relevant details"]
-        }
-    ],
-    "publications": [
-        {
-            "title": "Publication Title",
-            "items": ["Relevant details", "Relevant details"],
-            "link": "http://example.com"
-        }
-    ],
-    "skills": [
-        {
-            "skillTitle": "Skill",
-            "description": "Skill details"
-        }
-    ],
-    "languages": [
-        {
-            "language": "Language",
-            "proficiency": "Proficiency Level"
-        }
-    ]
-}
-        </pre>
+        <h3>Change Section Names</h3>
+        <p>To change the title names of each section of the CV simply click the edit button and change the name.</p>
         
         <p>Enjoy building your CV!</p>
+
+        <a href="https://www.flaticon.com/free-icons/pencil" title="pencil icons">Pencil icons created by Icongeek26 - Flaticon</a>
+        
+        
             </div>
 
             <!-- Load Data Section -->

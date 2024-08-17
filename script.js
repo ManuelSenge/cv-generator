@@ -1,3 +1,49 @@
+function editSectionName(icon) {
+    const listItem = icon.parentElement;
+    const link = listItem.querySelector('a');
+    const currentName = link.textContent;
+    const input = document.createElement('input');
+    input.type = 'text';
+    input.className = 'edit-input';
+    input.value = currentName;
+
+    // Function to handle the update
+    const updateSectionName = () => {
+        const newName = input.value;
+        link.textContent = newName;
+        listItem.removeChild(input);
+        listItem.appendChild(icon);
+
+        // Update the <h2> in the corresponding section
+        const targetId = link.getAttribute('data-target');
+        const section = document.getElementById(targetId);
+        if (section) {
+            const header = section.querySelector('h2');
+            if (header) {
+                header.textContent = newName;
+            }
+        }
+    };
+
+    // Event listener for when the input loses focus
+    input.addEventListener('blur', updateSectionName);
+
+    // Event listener for the Enter key
+    input.addEventListener('keydown', (event) => {
+        if (event.key === 'Enter') {
+            event.preventDefault(); // Prevent the default behavior of Enter key (e.g., form submission)
+            updateSectionName();
+        }
+    });
+
+    // Insert the input field and remove the edit icon
+    listItem.insertBefore(input, icon);
+    listItem.removeChild(icon);
+    input.focus();
+}
+
+
+
 window.addEventListener('beforeunload', function (e) {
     // Custom message for most modern browsers
     var confirmationMessage = 'Really want to refresh the website? All data will be removed.';
@@ -63,9 +109,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
     
 });
-
-
-
 
 
 
@@ -253,7 +296,7 @@ function addEducation() {
         \\usepackage{enumitem}
         \\usepackage{titlesec}
         \\usepackage{xcolor}
-        \\usepackage{hyperref} 
+        \\usepackage{hyperref}
         \\usepackage[T1]{fontenc}
         \\usepackage{tgtermes}
         \\usepackage{lipsum}
@@ -302,6 +345,8 @@ function addEducation() {
         
                 sectionOrder.forEach((section) => {
                     const target = section.getAttribute('data-target');
+                    const header = document.querySelector(`#${target} h2`);
+                    const headerText = header ? header.textContent : '';
         
                     switch (target) {
                         case 'education-section':
@@ -309,8 +354,8 @@ function addEducation() {
                             const educations = document.querySelectorAll('#education-section .form-group');
                             if (educations.length > 0) {
                                 latex += `
-        % Education
-        \\section*{Education}
+        % ${headerText}
+        \\section*{${headerText}}
         \\noindent
         \\raggedright
         \\vspace{0.4em}
@@ -338,8 +383,8 @@ function addEducation() {
                             const experiences = document.querySelectorAll('#experience-section .form-group');
                             if (experiences.length > 0) {
                                 latex += `
-        % Work Experience and Projects
-        \\section*{Work Experience and Projects}
+        % ${headerText}
+        \\section*{${headerText}}
         \\noindent
         \\raggedright
         \\vspace{0.4em}
@@ -364,11 +409,11 @@ function addEducation() {
         
                         case 'internships-section':
                             // Internships Section
-                            const internships = document.querySelectorAll('#internship-section .form-group');
+                            const internships = document.querySelectorAll('#internships-section .form-group');
                             if (internships.length > 0) {
                                 latex += `
-        % Internships
-        \\section*{Internships}
+        % ${headerText}
+        \\section*{${headerText}}
         \\noindent
         \\raggedright
         \\vspace{0.4em}
@@ -396,8 +441,8 @@ function addEducation() {
                             const activities = document.querySelectorAll('#activities-section .form-group');
                             if (activities.length > 0) {
                                 latex += `
-        % Extracurricular Activities
-        \\section*{Engagement}
+        % ${headerText}
+        \\section*{${headerText}}
         \\noindent
         \\raggedright
         \\vspace{0.4em}
@@ -425,8 +470,8 @@ function addEducation() {
                             const publications = document.querySelectorAll('#publications-section .form-group');
                             if (publications.length > 0) {
                                 latex += `
-        % Publications
-        \\section*{Publications}
+        % ${headerText}
+        \\section*{${headerText}}
         \\noindent
         \\raggedright
         \\vspace{0.4em}
@@ -450,8 +495,8 @@ function addEducation() {
                             const skills = document.querySelectorAll('#skills-section .form-group');
                             if (skills.length > 0) {
                                 latex += `
-        % Skills
-        \\section*{Skills}
+        % ${headerText}
+        \\section*{${headerText}}
         \\noindent
         \\raggedright
         \\vspace{0.4em}
@@ -472,8 +517,8 @@ function addEducation() {
                             const languages = document.querySelectorAll('#languages-section .form-group');
                             if (languages.length > 0) {
                                 latex += `
-        % Languages
-        \\section*{Languages}
+        % ${headerText}
+        \\section*{${headerText}}
         \\noindent
         \\raggedright
         \\vspace{0.4em}
@@ -503,6 +548,7 @@ function addEducation() {
         
         
         
+        
 
 // Function to copy LaTeX to clipboard
 function copyLatex() {
@@ -518,6 +564,7 @@ function copyLatex() {
 
 function saveData() {
     const messageDiv = document.getElementById('save-message');
+    // Prepare the data to be saved
     try {
         // Extract the order of sections from the navigation bar
         const sectionOrder = Array.from(document.querySelectorAll('.sidebar ul li a')).map(section => section.getAttribute('data-target'));
@@ -525,53 +572,62 @@ function saveData() {
         // Prepare the data to be saved
         const data = {
             sectionOrder: sectionOrder, // Add the order of sections to the data
+            headers: sectionOrder.reduce((acc, target) => {
+                const header = document.querySelector(`#${target} h2`);
+                if (header) {
+                    acc[target] = header.textContent.trim();
+                } else {
+                    acc[target] = ''; // Provide an empty string if no header is found
+                }
+                return acc;
+            }, {}),
             contact: {
-                name: document.getElementById('name').value,
-                dob: document.getElementById('dob').value,
-                phone: document.getElementById('phone').value,
-                email: document.getElementById('email').value,
-                linkedin: document.getElementById('linkedin').value
+                name: document.getElementById('name').value.trim(),
+                dob: document.getElementById('dob').value.trim(),
+                phone: document.getElementById('phone').value.trim(),
+                email: document.getElementById('email').value.trim(),
+                linkedin: document.getElementById('linkedin').value.trim()
             },
             education: Array.from(document.querySelectorAll('#education-section .form-group')).map(edu => ({
-                institution: edu.querySelector('.institution').value,
-                location: edu.querySelector('.location').value,
-                degree: edu.querySelector('.degree').value,
-                date: edu.querySelector('.date').value,
-                items: edu.querySelector('.items').value
+                institution: edu.querySelector('.institution').value.trim(),
+                location: edu.querySelector('.location').value.trim(),
+                degree: edu.querySelector('.degree').value.trim(),
+                date: edu.querySelector('.date').value.trim(),
+                items: edu.querySelector('.items').value.trim()
             })),
             experience: Array.from(document.querySelectorAll('#experience-section .form-group')).map(exp => ({
-                company: exp.querySelector('.company').value,
-                location: exp.querySelector('.location').value,
-                role: exp.querySelector('.role').value,
-                date: exp.querySelector('.date').value,
-                items: exp.querySelector('.items').value
+                company: exp.querySelector('.company').value.trim(),
+                location: exp.querySelector('.location').value.trim(),
+                role: exp.querySelector('.role').value.trim(),
+                date: exp.querySelector('.date').value.trim(),
+                items: exp.querySelector('.items').value.trim()
             })),
             internship: Array.from(document.querySelectorAll('#internship-section .form-group')).map(intern => ({
-                company: intern.querySelector('.company').value,
-                location: intern.querySelector('.location').value,
-                role: intern.querySelector('.role').value,
-                date: intern.querySelector('.date').value,
-                items: intern.querySelector('.items').value
+                company: intern.querySelector('.company').value.trim(),
+                location: intern.querySelector('.location').value.trim(),
+                role: intern.querySelector('.role').value.trim(),
+                date: intern.querySelector('.date').value.trim(),
+                items: intern.querySelector('.items').value.trim()
             })),
             activities: Array.from(document.querySelectorAll('#activities-section .form-group')).map(act => ({
-                organization: act.querySelector('.organization').value,
-                location: act.querySelector('.location').value,
-                role: act.querySelector('.role').value,
-                date: act.querySelector('.date').value,
-                items: act.querySelector('.items').value
+                organization: act.querySelector('.organization').value.trim(),
+                location: act.querySelector('.location').value.trim(),
+                role: act.querySelector('.role').value.trim(),
+                date: act.querySelector('.date').value.trim(),
+                items: act.querySelector('.items').value.trim()
             })),
             publications: Array.from(document.querySelectorAll('#publications-section .form-group')).map(pub => ({
-                title: pub.querySelector('.title').value,
-                items: pub.querySelector('.items').value,
-                link: pub.querySelector('.link').value
+                title: pub.querySelector('.title').value.trim(),
+                items: pub.querySelector('.items').value.trim(),
+                link: pub.querySelector('.link').value.trim()
             })),
             skills: Array.from(document.querySelectorAll('#skills-section .form-group')).map(skill => ({
-                skillTitle: skill.querySelector('.skill-title').value,
-                description: skill.querySelector('.description').value
+                skillTitle: skill.querySelector('.skill-title').value.trim(),
+                description: skill.querySelector('.description').value.trim()
             })),
             languages: Array.from(document.querySelectorAll('#languages-section .form-group')).map(lang => ({
-                language: lang.querySelector('.language').value,
-                proficiency: lang.querySelector('.proficiency').value
+                language: lang.querySelector('.language').value.trim(),
+                proficiency: lang.querySelector('.proficiency').value.trim()
             }))
         };
 
@@ -594,167 +650,189 @@ function saveData() {
 
 
 function loadData() {
-    try{
-    const input = document.getElementById('file-input');
-    const file = input.files[0];
-    const messageDiv = document.getElementById('load-message');
+    try {
+        const input = document.getElementById('file-input');
+        const file = input.files[0];
+        const messageDiv = document.getElementById('load-message');
 
-    if (!file) {
-        messageDiv.textContent = 'No file selected.';
-        messageDiv.style.color = 'red';
-        return;
-    }
+        if (!file) {
+            messageDiv.textContent = 'No file selected.';
+            messageDiv.style.color = 'red';
+            return;
+        }
 
-    const reader = new FileReader();
+        const reader = new FileReader();
 
-    reader.onload = function(event) {
-        try {
-            const data = JSON.parse(event.target.result);
+        reader.onload = function(event) {
+            try {
+                const data = JSON.parse(event.target.result);
 
-            // Update navigation bar order
-            const navList = document.getElementById('sortable-list');
-            const navItems = Array.from(navList.querySelectorAll('li'));
+                document.getElementById('name').value = data.contact.name || '';
+                document.getElementById('dob').value = data.contact.dob || '';
+                document.getElementById('phone').value = data.contact.phone || '';
+                document.getElementById('email').value = data.contact.email || '';
+                document.getElementById('linkedin').value = data.contact.linkedin || ''; // Adding LinkedIn field
 
-            // Sort nav items based on the order in the JSON
-            const sectionOrder = data.sectionOrder
+                // Sort nav items based on the order in the JSON
+                const sectionOrder = data.sectionOrder
 
-            sectionOrder.forEach(section => {
-                const targetId = section;
-                const matchingNavItem = navItems.find(item => item.querySelector('a').dataset.target === targetId);
-                if (matchingNavItem) {
-                    navList.appendChild(matchingNavItem); // Re-append in the correct order
-                }
-            });
+                // Update navigation bar order and text
+                const navList = document.getElementById('sortable-list');
+                const navItems = Array.from(navList.querySelectorAll('li'));
 
-        document.getElementById('name').value = data.contact.name || '';
-        document.getElementById('dob').value = data.contact.dob || '';
-        document.getElementById('phone').value = data.contact.phone || '';
-        document.getElementById('email').value = data.contact.email || '';
-        document.getElementById('linkedin').value = data.contact.linkedin || ''; // Adding LinkedIn field
+                // Create a map for section names
+                const sectionNames = data.headers || {};
 
-        const fillSection = (containerId, items, fields) => {
-            const container = document.getElementById(containerId);
-            //container.innerHTML = ''; // Clear existing content
-
-            items.forEach(item => {
-                const div = document.createElement('div');
-                div.className = 'form-group';
-            
-                fields.forEach(field => {
-                    const input = field.type === 'textarea'
-                        ? document.createElement('textarea')
-                        : document.createElement('input');
-                    
-                    input.className = field.className;
-                    input.type = field.type || 'text';
-            
-                    if (field.type === 'textarea') {
-                        // Join items with line breaks for textareas
-                        const value = Array.isArray(item[field.key])
-                            ? item[field.key].join('\n') // Join array items with line breaks
-                            : item[field.key] || '';     // Fallback to empty string if not an array
-                        input.value = value;
-                        input.style.height = '100px'; // Adjust height if needed
-                    } else {
-                        input.value = item[field.key] || ''; // For inputs
+                // reorder
+                sectionOrder.forEach(section => {
+                    const targetId = section;
+                    const matchingNavItem = navItems.find(item => item.querySelector('a').dataset.target === targetId);
+                    if (matchingNavItem) {
+                        navList.appendChild(matchingNavItem); // Re-append in the correct order
                     }
-            
-                    input.placeholder = field.placeholder || '';
-                    div.appendChild(input);
                 });
 
-                // Create button group
-                const buttonGroup = document.createElement('div');
-                buttonGroup.className = 'button-group';
+                // Update the navigation bar with section names
+                navItems.forEach(item => {
+                    const link = item.querySelector('a');
+                    const targetId = link.getAttribute('data-target');
 
-                // Remove button
-                const removeButton = document.createElement('button');
-                removeButton.className = 'remove-button';
-                removeButton.textContent = 'Remove';
-                removeButton.onclick = () => div.remove(); // Set onClick event to remove the section
-                buttonGroup.appendChild(removeButton);
+                    // Update the link text with the name from data
+                    link.textContent = sectionNames[targetId];
 
-                // Move up button
-                const moveUpButton = document.createElement('button');
-                moveUpButton.className = 'move-button move-up';
-                moveUpButton.textContent = 'UP';
-                moveUpButton.onclick = () => moveElement(div, 'up');
-                buttonGroup.appendChild(moveUpButton);
+                });
 
-                // Move down button
-                const moveDownButton = document.createElement('button');
-                moveDownButton.className = 'move-button move-down';
-                moveDownButton.textContent = 'DOWN';
-                moveDownButton.onclick = () => moveElement(div, 'down');
-                buttonGroup.appendChild(moveDownButton);
+                // Function to update the header and content of each section
+                const updateSection = (sectionId, items, fields) => {
+                    const container = document.getElementById(sectionId);
+                    const header = container.querySelector('h2');
 
-                // Append button group to the form group div
-                div.appendChild(buttonGroup);
-                
-                container.appendChild(div);
-            });
+                    // Set the section header text
+                    if (header) {
+                        header.textContent = sectionNames[sectionId] || ''; // Set the header text
+                    }
+                    
+
+                    // Clear existing content before filling with new data
+                    //container.innerHTML = '';
+
+                    items.forEach(item => {
+                        const div = document.createElement('div');
+                        div.className = 'form-group';
+                    
+                        fields.forEach(field => {
+                            const input = field.type === 'textarea'
+                                ? document.createElement('textarea')
+                                : document.createElement('input');
+                            
+                            input.className = field.className;
+                            input.type = field.type || 'text';
+                    
+                            if (field.type === 'textarea') {
+                                const value = Array.isArray(item[field.key])
+                                    ? item[field.key].join('\n')
+                                    : item[field.key] || '';
+                                input.value = value;
+                                input.style.height = '100px'; 
+                            } else {
+                                input.value = item[field.key] || ''; 
+                            }
+                    
+                            input.placeholder = field.placeholder || '';
+                            div.appendChild(input);
+                        });
+
+                        // Create button group
+                        const buttonGroup = document.createElement('div');
+                        buttonGroup.className = 'button-group';
+
+                        // Remove button
+                        const removeButton = document.createElement('button');
+                        removeButton.className = 'remove-button';
+                        removeButton.textContent = 'Remove';
+                        removeButton.onclick = () => div.remove(); 
+                        buttonGroup.appendChild(removeButton);
+
+                        // Move up button
+                        const moveUpButton = document.createElement('button');
+                        moveUpButton.className = 'move-button move-up';
+                        moveUpButton.textContent = 'UP';
+                        moveUpButton.onclick = () => moveElement(div, 'up');
+                        buttonGroup.appendChild(moveUpButton);
+
+                        // Move down button
+                        const moveDownButton = document.createElement('button');
+                        moveDownButton.className = 'move-button move-down';
+                        moveDownButton.textContent = 'DOWN';
+                        moveDownButton.onclick = () => moveElement(div, 'down');
+                        buttonGroup.appendChild(moveDownButton);
+
+                        // Append button group to the form group div
+                        div.appendChild(buttonGroup);
+                        
+                        container.appendChild(div);
+                    });
+                };
+
+                // Update each section with its data
+                updateSection('education-section', data.education || [], [
+                    { className: 'institution', key: 'institution', placeholder: 'Institution' },
+                    { className: 'location', key: 'location', placeholder: 'Location' },
+                    { className: 'degree', key: 'degree', placeholder: 'Degree' },
+                    { className: 'date', key: 'date', placeholder: 'Date' },
+                    { className: 'items', key: 'items', placeholder: 'Items (one per line)', type: 'textarea' }
+                ]);
+
+                updateSection('experience-section', data.experience || [], [
+                    { className: 'company', key: 'company', placeholder: 'Company' },
+                    { className: 'location', key: 'location', placeholder: 'Location' },
+                    { className: 'role', key: 'role', placeholder: 'Role' },
+                    { className: 'date', key: 'date', placeholder: 'Date' },
+                    { className: 'items', key: 'items', placeholder: 'Items (one per line)', type: 'textarea' }
+                ]);
+
+                updateSection('internships-section', data.internship || [], [
+                    { className: 'company', key: 'company', placeholder: 'Company' },
+                    { className: 'location', key: 'location', placeholder: 'Location' },
+                    { className: 'role', key: 'role', placeholder: 'Role' },
+                    { className: 'date', key: 'date', placeholder: 'Date' },
+                    { className: 'items', key: 'items', placeholder: 'Items (one per line)', type: 'textarea' }
+                ]);
+
+                updateSection('activities-section', data.activities || [], [
+                    { className: 'organization', key: 'organization', placeholder: 'Organization' },
+                    { className: 'location', key: 'location', placeholder: 'Location' },
+                    { className: 'role', key: 'role', placeholder: 'Role' },
+                    { className: 'date', key: 'date', placeholder: 'Date' },
+                    { className: 'items', key: 'items', placeholder: 'Items (one per line)', type: 'textarea' }
+                ]);
+
+                updateSection('publications-section', data.publications || [], [
+                    { className: 'title', key: 'title', placeholder: 'Title' },
+                    { className: 'items', key: 'items', placeholder: 'Items (one per line)', type: 'textarea' },
+                    { className: 'link', key: 'link', placeholder: 'Link' },
+                ]);
+
+                updateSection('skills-section', data.skills || [], [
+                    { className: 'skill-title', key: 'skillTitle', placeholder: 'Skill Title' },
+                    { className: 'description', key: 'description', placeholder: 'Description (one per line)', type: 'textarea' }
+                ]);
+
+                updateSection('languages-section', data.languages || [], [
+                    { className: 'language', key: 'language', placeholder: 'Language' },
+                    { className: 'proficiency', key: 'proficiency', placeholder: 'Proficiency' }
+                ]);
+
+                messageDiv.textContent = 'Data successfully loaded!';
+                messageDiv.style.color = 'green';
+            } catch (error) {
+                messageDiv.textContent = `Error loading data: ${error.message}`;
+                messageDiv.style.color = 'red';
+            }
         };
 
-        fillSection('education-section', data.education || [], [
-            { className: 'institution', key: 'institution', placeholder: 'Institution' },
-            { className: 'location', key: 'location', placeholder: 'Location' },
-            { className: 'degree', key: 'degree', placeholder: 'Degree' },
-            { className: 'date', key: 'date', placeholder: 'Date' },
-            { className: 'items', key: 'items', placeholder: 'Items (one per line)', type: 'textarea' }
-        ]);
-
-        fillSection('experience-section', data.experience || [], [
-            { className: 'company', key: 'company', placeholder: 'Company' },
-            { className: 'location', key: 'location', placeholder: 'Location' },
-            { className: 'role', key: 'role', placeholder: 'Role' },
-            { className: 'date', key: 'date', placeholder: 'Date' },
-            { className: 'items', key: 'items', placeholder: 'Items (one per line)', type: 'textarea' }
-        ]);
-
-        fillSection('internships-section', data.internship || [], [
-            { className: 'company', key: 'company', placeholder: 'Company' },
-            { className: 'location', key: 'location', placeholder: 'Location' },
-            { className: 'role', key: 'role', placeholder: 'Role' },
-            { className: 'date', key: 'date', placeholder: 'Date' },
-            { className: 'items', key: 'items', placeholder: 'Items (one per line)', type: 'textarea' }
-        ]);
-
-        fillSection('activities-section', data.activities || [], [
-            { className: 'organization', key: 'organization', placeholder: 'Organization' },
-            { className: 'location', key: 'location', placeholder: 'Location' },
-            { className: 'role', key: 'role', placeholder: 'Role' },
-            { className: 'date', key: 'date', placeholder: 'Date' },
-            { className: 'items', key: 'items', placeholder: 'Items (one per line)', type: 'textarea' }
-        ]);
-
-        fillSection('publications-section', data.publications || [], [
-            { className: 'title', key: 'title', placeholder: 'Title' },
-            { className: 'items', key: 'items', placeholder: 'Items (one per line)', type: 'textarea' },
-            { className: 'link', key: 'link', placeholder: 'Link' },
-        ]);
-
-        fillSection('skills-section', data.skills || [], [
-            { className: 'skill-title', key: 'skillTitle', placeholder: 'Skill Title' },
-            { className: 'description', key: 'description', placeholder: 'Description (one per line)', type: 'textarea' }
-        ]);
-
-        fillSection('languages-section', data.languages || [], [
-            { className: 'language', key: 'language', placeholder: 'Language' },
-            { className: 'proficiency', key: 'proficiency', placeholder: 'Proficiency' }
-        ]);
-            
-
-            messageDiv.textContent = 'Data successfully loaded!';
-            messageDiv.style.color = 'green';
-        } catch (error) {
-            messageDiv.textContent = `Error loading data: ${error.message}`;
-            messageDiv.style.color = 'red';
-        }
-    };
-
-    reader.readAsText(file);
-} catch (error) {
-    alert(`${error.message}`);
-
-}
+        reader.readAsText(file);
+    } catch (error) {
+        alert(`${error.message}`);
+    }
 }

@@ -18,6 +18,19 @@
         "languages-section",
         "generate-latex-section"
       ],
+      "headers": {
+    "info-section": "Information",
+    "load-data-section": "Load Data",
+    "contact-info": "Contact Information",
+    "education-section": "Education",
+    "experience-section": "Work Experience and Projects",
+    "internships-section": "Internships",
+    "activities-section": "Engagement",
+    "publications-section": "Publications",
+    "skills-section": "Skills",
+    "languages-section": "Languages",
+    "generate-latex-section": "Generate LaTeX"
+  },
     "education": [
         {
             "institution": "University Name",

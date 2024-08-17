@@ -301,3 +301,36 @@ button.move-down:hover {
     opacity: 0.5;
     background-color: #ddd;
 }
+
+li {
+    position: relative;
+    list-style: none;
+    padding: 0;
+}
+
+li a {
+    display: inline-block;
+    margin-right: 5px;
+}
+
+.edit-icon {
+    cursor: pointer;
+    margin-left: 8px;
+    margin-right: 8px;
+    font-size: 14px;
+    margin-top: 12px;
+    color: #555;
+    position: absolute;
+    right: 0;
+    top: 0;
+}
+
+.edit-icon:hover {
+    color: #000;
+}
+
+.edit-icon img {
+    width: 20px; /* Adjust the size as needed */
+    height: 20px; /* Adjust the size as needed */
+    display: block;
+}
