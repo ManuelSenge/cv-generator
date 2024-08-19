@@ -365,14 +365,17 @@ function addEducation() {
                                     const location = edu.querySelector('.location').value;
                                     const degree = edu.querySelector('.degree').value;
                                     const date = edu.querySelector('.date').value;
-                                    const items = edu.querySelector('.items').value.replace(/\n/g, ' \\\\ \n');
+                                    const items = edu.querySelector('.items').value.replace(/\n/g, ' \n');
         
                                     latex += `
-        \\textbf{${institution}} \\hfill ${location}\\\\
+        \\textbf{\\large ${institution}} \\hfill ${location}\\\\
         \\textit{${degree}} \\hfill \\textbf{${date}}
-        \\begin{itemize}[leftmargin=0.5cm]
+
+        \\begin{minipage}{5.4in}
+        \\begin{itemize}
             ${items.split('\n').map(item => `\\item ${item}`).join('\n')}
         \\end{itemize}
+        \\end{minipage}
                                     `;
                                 });
                             }
@@ -394,14 +397,17 @@ function addEducation() {
                                     const location = exp.querySelector('.location').value;
                                     const role = exp.querySelector('.role').value;
                                     const date = exp.querySelector('.date').value;
-                                    const items = exp.querySelector('.items').value.replace(/\n/g, ' \\\\ \n');
+                                    const items = exp.querySelector('.items').value.replace(/\n/g, ' \n');
         
                                     latex += `
-        \\textbf{${company}} \\hfill ${location}\\\\
+        \\textbf{\\large ${company}} \\hfill ${location}\\\\
         \\textit{${role}} \\hfill \\textbf{${date}}
-        \\begin{itemize}[leftmargin=0.5cm]
+
+        \\begin{minipage}{5.5in}
+        \\begin{itemize}
             ${items.split('\n').map(item => `\\item ${item}`).join('\n')}
         \\end{itemize}
+        \\end{minipage}
                                     `;
                                 });
                             }
@@ -423,14 +429,17 @@ function addEducation() {
                                     const location = intern.querySelector('.location').value;
                                     const role = intern.querySelector('.role').value;
                                     const date = intern.querySelector('.date').value;
-                                    const items = intern.querySelector('.items').value.replace(/\n/g, ' \\\\ \n');
+                                    const items = intern.querySelector('.items').value.replace(/\n/g, ' \n');
         
                                     latex += `
-        \\textbf{${company}} \\hfill ${location}\\\\
+        \\textbf{\\large ${company}} \\hfill ${location}\\\\
         \\textit{${role}} \\hfill \\textbf{${date}}
-        \\begin{itemize}[leftmargin=0.5cm]
+
+        \\begin{minipage}{5.4in}
+        \\begin{itemize}[leftmargin=0.5cm, itemsep=0pt, parsep=0pt, topsep=0pt, partopsep=0pt]
             ${items.split('\n').map(item => `\\item ${item}`).join('\n')}
         \\end{itemize}
+        \\end{minipage}
                                     `;
                                 });
                             }
@@ -452,14 +461,17 @@ function addEducation() {
                                     const location = act.querySelector('.location').value;
                                     const role = act.querySelector('.role').value;
                                     const date = act.querySelector('.date').value;
-                                    const items = act.querySelector('.items').value.replace(/\n/g, ' \\\\ \n');
+                                    const items = act.querySelector('.items').value.replace(/\n/g, ' \n');
         
                                     latex += `
-        \\textbf{${organization}} \\hfill ${location}\\\\
+        \\textbf{\\large ${organization}} \\hfill ${location}\\\\
         \\textit{${role}} \\hfill \\textbf{${date}}
-        \\begin{itemize}[leftmargin=0.5cm]
+
+        \\begin{minipage}{5.4in}
+        \\begin{itemize}[leftmargin=0.5cm, itemsep=0pt, parsep=0pt, topsep=0pt, partopsep=0pt]
             ${items.split('\n').map(item => `\\item ${item}`).join('\n')}
         \\end{itemize}
+        \\end{minipage}
                                     `;
                                 });
                             }
@@ -478,11 +490,11 @@ function addEducation() {
                                 `;
                                 publications.forEach((pub) => {
                                     const title = pub.querySelector('.title').value;
-                                    const items = pub.querySelector('.items').value.replace(/\n/g, ' \\\\ \n');
+                                    const items = pub.querySelector('.items').value.replace(/\n/g, ' \n');
                                     const link = pub.querySelector('.link').value;
         
                                     latex += `
-        \\textbf{${title}} \\\\
+        \\textbf{\\large ${title}} \\\\
         ${items} \\\\
         \\textcolor{blue}{\\href{${link}}{${link}}}
                                     `;
@@ -602,7 +614,7 @@ function saveData() {
                 date: exp.querySelector('.date').value.trim(),
                 items: exp.querySelector('.items').value.trim()
             })),
-            internship: Array.from(document.querySelectorAll('#internship-section .form-group')).map(intern => ({
+            internship: Array.from(document.querySelectorAll('#internships-section .form-group')).map(intern => ({
                 company: intern.querySelector('.company').value.trim(),
                 location: intern.querySelector('.location').value.trim(),
                 role: intern.querySelector('.role').value.trim(),
