@@ -231,6 +231,8 @@ function addEducation() {
             div.innerHTML = `
                 <label>Title:</label>
                 <input type="text" class="title">
+                <label>Role:</label>
+                <input type="text" class="role">
                 <label>Items:</label>
                 <textarea class="items"></textarea>
                 <label>Link:</label>
@@ -490,12 +492,18 @@ function addEducation() {
                                 `;
                                 publications.forEach((pub) => {
                                     const title = pub.querySelector('.title').value;
+                                    const role = pub.querySelector('.role').value;
                                     const items = pub.querySelector('.items').value.replace(/\n/g, ' \n');
                                     const link = pub.querySelector('.link').value;
         
                                     latex += `
         \\textbf{\\large ${title}} \\\\
-        ${items} \\\\
+        \\textit{${role}}\\\\
+        \\begin{minipage}{5.4in}
+        \\begin{itemize}[leftmargin=0.5cm, itemsep=0pt, parsep=0pt, topsep=0pt, partopsep=0pt]
+            ${items.split('\n').map(item => `\\item ${item}`).join('\n')}
+        \\end{itemize}
+        \\end{minipage}\\\\
         \\textcolor{blue}{\\href{${link}}{${link}}}
                                     `;
                                 });
@@ -630,6 +638,7 @@ function saveData() {
             })),
             publications: Array.from(document.querySelectorAll('#publications-section .form-group')).map(pub => ({
                 title: pub.querySelector('.title').value.trim(),
+                role: pub.querySelector('.role').value.trim(),
                 items: pub.querySelector('.items').value.trim(),
                 link: pub.querySelector('.link').value.trim()
             })),
@@ -821,6 +830,7 @@ function loadData() {
 
                 updateSection('publications-section', data.publications || [], [
                     { className: 'title', key: 'title', placeholder: 'Title' },
+                    { className: 'role', key: 'role', placeholder: 'Role' },
                     { className: 'items', key: 'items', placeholder: 'Items (one per line)', type: 'textarea' },
                     { className: 'link', key: 'link', placeholder: 'Link' },
                 ]);
